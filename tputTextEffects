@@ -1,0 +1,16 @@
+#!/bin/bash
+ clear
+             echo " "
+  tput bold; echo " Начать жирный текст              | tput bold;";
+             echo " Отключить все атрибуты ;         | tput sgr0";tput sgr0
+             echo " "
+  tput smul; echo " Начать подчеркнутый текст        | tput smul;";
+  tput smul; echo " Конец подчеркнутого текста       | ;tput rmul"; tput rmul
+             echo " "
+  tput blink;echo " Начать мигающий текст            | tput blink;";tput sgr0
+             echo " "
+  tput invis;echo " Начать невидимый текст           | tput invis;";tput sgr0
+             echo " Там он есть. Просто его не видно | tput invis;"
+             echo " "
+  tput smso; echo " Запустить \"выдающийся\" режим     | tput smso;";
+             echo " Завершить \"выдающийся\" режим     | ;tput rmso";tput rmso

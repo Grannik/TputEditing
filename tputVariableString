@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Сброс параметров
+reset=`tput sgr0`
+
+# Цветной текс
+echo " $(tput setaf 0)black text $(tput sgr 0)"
+echo " $(tput setaf 1)red text $(tput sgr 0)"
+echo " $(tput setaf 2)green text $(tput sgr 0)"
+echo " $(tput setaf 3)yellow text $(tput sgr 0)"
+echo " $(tput setaf 4)blue text $(tput sgr 0)"
+echo " $(tput setaf 5)purple text $(tput sgr 0)"
+echo " $(tput setaf 6)azure text $(tput sgr 0)"
+echo " $(tput setaf 7)grey text $(tput sgr 0)"
+#
+echo""
+# Цветной фон
+echo " $(tput setab 0)black background$(tput sgr 0)"
+echo " $(tput setab 1)red background$(tput sgr 0)"
+echo " $(tput setab 2)green background$(tput sgr 0)"
+echo " $(tput setab 3)yellow background$(tput sgr 0)"
+echo " $(tput setab 4)blue background$(tput sgr 0)"
+echo " $(tput setab 5)purple background$(tput sgr 0)"
+echo " $(tput setab 6)azure background$(tput sgr 0)"
+echo " $(tput setab 7)grey background$(tput sgr 0)"
+#

@@ -1,0 +1,6 @@
+#!/bin/bash 
+
+ echo -n
+ read e
+ echo "$(tput setab $e)текст $(tput sgr0)";
+ exit 0

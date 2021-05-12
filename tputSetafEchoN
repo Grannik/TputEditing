@@ -1,0 +1,7 @@
+#!/bin/bash 
+#
+echo -n
+read e
+echo "$(tput setaf $e)текст $(tput sgr0)";
+#
+exit 0

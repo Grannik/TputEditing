@@ -1,0 +1,134 @@
+#!/bin/bash
+E='echo -e';e='echo -en';trap "R;exit" 2
+    ESC=$( $e "\e")
+   TPUT(){ $e "\e[${1};${2}H" ;}
+  CLEAR(){ $e "\ec";}
+# 25 возможно это 
+  CIVIS(){ $e "\e[?25l";}
+# 7 возможно это цвет текста списка
+   MARK(){ $e "\e[7m";}
+# 0 это цвет заднего фона списка
+ UNMARK(){ $e "\e[0m";}
+# ~~~~~~~~ Эти строки задают цвет фона ~~~~~~~~
+ R(){ CLEAR ;stty sane;CLEAR;};
+#R(){ CLEAR ;stty sane;$e "\ec\e[37;44m\e[J";};
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   HEAD(){ for (( a=1; a<=34; a++ ))
+           do
+           TPUT $a 87
+           $E "\xE2\x94\x82                                          \xE2\x94\x82";
+           done
+           TPUT 3 88 
+           $E "         СПРАВОЧНИК TPUT                  ";
+           TPUT 32 88 
+           $E "         Up \xE2\x86\x91 \xE2\x86\x93 Down Select Enter         ";
+           MARK;TPUT 1 88
+           $E "      Программа написана на bash tput     " ;UNMARK;}
+           i=0; CLEAR; CIVIS;NULL=/dev/null
+# 32 это расстояние сверху и 48 это расстояние слева
+   FOOT(){ MARK;TPUT 34 88
+# нижнее заглавие
+           $E "         Grannik | 2021.05.11 | 🄯         ";UNMARK;}
+# это управляет кнопками ввер/хвниз
+ i=0; CLEAR; CIVIS;NULL=/dev/null
+#
+ ARROW(){ IFS= read -s -n1 key 2>/dev/null >&2
+           if [[ $key = $ESC ]];then 
+              read -s -n1 key 2>/dev/null >&2;
+              if [[ $key = \[ ]]; then
+                 read -s -n1 key 2>/dev/null >&2;
+                 if [[ $key = A ]]; then echo up;fi
+                 if [[ $key = B ]];then echo dn;fi
+              fi
+           fi
+           if [[ "$key" == "$($e \\x0A)" ]];then echo enter;fi;}
+# 4 и далее это отступ сверху и 48 это расстояние слева
+     M0(){ TPUT  5 97; $e "Первая строка и комментарий";}
+     M1(){ TPUT  6 97; $e "Атрибуты терминала";}
+     M2(){ TPUT  7 97; $e "Эффекты текста";}
+     M3(){ TPUT  8 97; $e "Цвета текста";}
+     M4(){ TPUT  9 97; $e "Цвета заднего плана";}
+     M5(){ TPUT 10 97; $e "Цвета текста и заднего плана";}
+     M6(){ TPUT 11 97; $e "Цвета через переменную";}
+     M7(){ TPUT 12 97; $e "Показать скрипт";}
+     M8(){ TPUT 13 97; $e "Цвета через переменную в строке";}
+     M9(){ TPUT 14 97; $e "Показать скрипт";}
+    M10(){ TPUT 15 97; $e "Часы в консоле";}
+    M11(){ TPUT 16 97; $e "Показать скрипт";}
+    M12(){ TPUT 17 97; $e "Введите номер цвета текста";}
+    M13(){ TPUT 18 97; $e "Показать скрипт";}
+    M14(){ TPUT 19 97; $e "Введите номер цвета заднего плана";}
+    M15(){ TPUT 20 97; $e "Показать скрипт";}
+    M16(){ TPUT 21 97; $e "16";}
+    M17(){ TPUT 22 97; $e "17";}
+    M18(){ TPUT 23 97; $e "18";}
+    M19(){ TPUT 24 97; $e "19";}
+    M20(){ TPUT 25 97; $e "20";}
+    M21(){ TPUT 26 97; $e "21";}
+    M22(){ TPUT 27 97; $e "Следим синтаксисом";}
+    M23(){ TPUT 28 97; $e "Редактировать файл menuTput";}
+    M24(){ TPUT 29 97; $e "Ссылки в интернете";}
+    M25(){ TPUT 30 97; $e "EXIT";}
+# далее идет переменная LM=10 позволяющая выстраивать список в вертикаль.
+   LM=25
+   MENU(){ for each in $(seq 0 $LM);do M${each};done;}
+    POS(){ if [[ $cur == up ]];then ((i--));fi
+           if [[ $cur == dn ]];then ((i++));fi
+           if [[ $i -lt 0   ]];then i=$LM;fi
+           if [[ $i -gt $LM ]];then i=0;fi;}
+REFRESH(){ after=$((i+1)); before=$((i-1))
+           if [[ $before -lt 0  ]];then before=$LM;fi
+           if [[ $after -gt $LM ]];then after=0;fi
+           if [[ $j -lt $i      ]];then UNMARK;M$before;else UNMARK;M$after;fi
+           if [[ $after -eq 0 ]] || [ $before -eq $LM ];then
+           UNMARK; M$before; M$after;fi;j=$i;UNMARK;M$before;M$after;}
+   INIT(){ R;HEAD;FOOT;MENU;}
+     SC(){ REFRESH;MARK;$S;$b;cur=`ARROW`;}
+     ES(){ MARK;$e "ENTER = main menu ";$b;read;INIT;};INIT
+  while [[ "$O" != " " ]]; do case $i in
+# Здесь необходимо следить за двумя перепенными 0) и S=M0 Они должны совпадать между собой и переменной списка M0().
+        0) S=M0;SC;if [[ $cur == enter ]];then R;echo "\
+ #
+ любой текс после данного знака читается как комментарий
+ за исключением первой строки:
+ #!/bin/bash\
+ ";fi;;
+        1) S=M1;SC;if [[ $cur == enter ]];then R;echo "
+ tput longname | Полное название типа терминала
+ tput lines    | Количество линий в терминале
+ tput cols     | Количество столбцов в терминале
+ tput colors   | Количество доступных цветов
+";fi;;
+        2) S=M2 ;SC;if [[ $cur == enter ]];then R;./tputTextEffects;fi;;
+        3) S=M3 ;SC;if [[ $cur == enter ]];then R;./tputColorsText;fi;;
+        4) S=M4 ;SC;if [[ $cur == enter ]];then R;./tputColorsBackground;fi;;
+        5) S=M5 ;SC;if [[ $cur == enter ]];then R;./tputColorsTextBackground;fi;;
+        6) S=M6 ;SC;if [[ $cur == enter ]];then R;./tputVariable;fi;;
+        7) S=M7 ;SC;if [[ $cur == enter ]];then R;cat tputVariable;fi;;
+        8) S=M8 ;SC;if [[ $cur == enter ]];then R;./tputVariableString;fi;;
+        9) S=M9 ;SC;if [[ $cur == enter ]];then R;cat tputVariableString;fi;;
+       10) S=M10;SC;if [[ $cur == enter ]];then R;./tputClock;fi;;
+       11) S=M11;SC;if [[ $cur == enter ]];then R;cat tputClock;fi;;
+       12) S=M12;SC;if [[ $cur == enter ]];then R;./tputSetafEchoN;fi;;
+       13) S=M13;SC;if [[ $cur == enter ]];then R;cat tputSetafEchoN;fi;;
+       14) S=M14;SC;if [[ $cur == enter ]];then R;./tputSetabEchoN;fi;;
+       15) S=M15;SC;if [[ $cur == enter ]];then R;cat tputSetabEchoN;fi;;
+       16) S=M16;SC;if [[ $cur == enter ]];then R;echo "16";fi;;
+       17) S=M17;SC;if [[ $cur == enter ]];then R;echo "17";fi;;
+       18) S=M18;SC;if [[ $cur == enter ]];then R;echo "18";fi;;
+       19) S=M19;SC;if [[ $cur == enter ]];then R;echo "19";fi;;
+       20) S=M20;SC;if [[ $cur == enter ]];then R;echo "20";fi;;
+       21) S=M21;SC;if [[ $cur == enter ]];then R;echo "21";fi;;
+       22) S=M22;SC;if [[ $cur == enter ]];then R;echo "\
+Следим синтаксисом!
+
+Так можно:  red=\`tput setaf 1\`
+Так нельзя: red = \`tput setaf 1\`
+";fi;;
+       23) S=M23;SC;if [[ $cur == enter ]];then R;ne TputEditing;fi;;
+       24) S=M24;SC;if [[ $cur == enter ]];then R;echo "\
+https://askubuntu.com/questions/1705/how-can-i-create-a-select-menu-in-a-shell-script \n
+https://linuxcommand.org/lc3_adv_tput.php                                             \n
+";fi;;
+       25) S=M25;SC;if [[ $cur == enter ]];then R;exit 0;fi;;
+ esac;POS;done

@@ -1,0 +1,5 @@
+#!/bin/bash
+  for (( c=1; c<=256; c++ ))
+   do
+    tput setaf $c; echo " Установить цвет переднего плана  | tput setaf $c;"; tput sgr0
+   done

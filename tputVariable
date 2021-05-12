@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Переменные цветов текста
+blackF=`tput setaf 0`
+redF=`tput setaf 1`
+greenF=`tput setaf 2`
+yellowF=`tput setaf 3`
+blueF=`tput setaf 4`
+purpleF=`tput setaf 5`
+azureF=`tput setaf 6`
+greyF=`tput setaf 7`
+
+# Переменные цветов фона
+blackB=`tput setab 0`
+redB=`tput setab 1`
+greenB=`tput setab 2`
+yellowB=`tput setab 3`
+blueB=`tput setab 4`
+purpleB=`tput setab 5`
+azureB=`tput setab 6`
+greyB=`tput setab 7`
+
+# Сброс параметров
+reset=`tput sgr0`
+
+# Цветной текс
+echo " ${blackF}black text${reset}"
+echo " ${redF}red text${reset}"
+echo " ${greenF}green text${reset}"
+echo " ${yellowF}yellow text${reset}"
+echo " ${blueF}blue text${reset}"
+echo " ${purpleF}purple text${reset}"
+echo " ${azureF}azure text${reset}"
+echo " ${greyF}grey text${reset}"
+#
+echo""
+# Цветной фон
+echo " ${blackB}black background${reset}"
+echo " ${redB}red background${reset}"
+echo " ${greenB}green background${reset}"
+echo " ${yellowB}yellow background${reset}"
+echo " ${blueB}blue background${reset}"
+echo " ${purpleB}purple background${reset}"
+echo " ${azureB}azure backgroundtext${reset}"
+echo " ${greyB}grey background${reset}"
+#

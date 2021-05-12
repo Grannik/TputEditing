@@ -1,0 +1,10 @@
+#!/bin/bash
+ for (( d=0; d<=255; d++ ))
+  do
+#   echo ""
+   tput setab $d; echo " Установить цвет заднего плана | tput setaf $d;"; tput sgr0;
+#   echo $(tput sgr0)
+  done
+
+#  echo
+# exit 0
